@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  {% block link %}
+  
+  {% endblock %}
+<title>{% block title %} {% endblock %}</title>
+
+{%block style%}
+
+{% endblock %}
+
+<style>
+      .simple-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    z-index: 1000;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .username {
+    color: white;
+    font-weight: 600;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .register-btn {
+    background-color: #4a6bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .register-btn:hover {
+    background-color: #3a5bef;
+  }
+  
+  /* Home icon styles */
+  .home-icon {
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 15px;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  
+  .home-icon:hover {
+    color: rgb(255, 74, 74);
+    transform: scale(1.1);
+  }
+</style>
+</head>
+  <nav class="simple-nav">
+    <div class="nav-content">
+        {% if user.is_authenticated %}
+        <div class="user-info">
+            <a href="{% url 'profile_page' %}" style="text-decoration:none; display: flex; gap:10px;">
+                <i class="fas fa-user-circle" style="color:rgb(255, 74, 74); font-size: 1.8rem;"></i>
+                <span class="username" title="{{ user.username }}" style="margin:2px;">
+                    {{ user.username|truncatechars:7 }}
+                </span>
+            </a>
+        </div>
+        {% else %}
+            <a href="{% url 'reg' %}">
+                <button class="register-btn">Register</button>
+            </a>
+        {% endif %}
+    </div>
+    
+    <!-- Home icon added here -->
+    <a href="{% url 'main_page' %}" class="home-icon">
+        <i class="fas fa-home"></i>
+    </a>
+</nav>
+<body>
+
+  
+{% block content %} 
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+</body>
+</html>

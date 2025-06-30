@@ -1,0 +1,1865 @@
+{% extends 'base.html' %}
+{% load static %}
+
+  {% block link %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+ 
+  {% endblock %}
+ 
+  {% block title %}IShowSpeed || main_page {% endblock %}
+
+  
+{% block style %}
+  <style>
+  /* ===== BASE STYLES ===== */
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-image: linear-gradient(to bottom,rgb(22, 25, 25),rgb(25, 25, 30));
+    color: #fff;
+  }
+  
+  .container {
+    padding: 0px !important;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #cc0000 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255,0,0,0.3) !important;
+  }
+
+  /* ===== NAVIGATION ===== */
+  .simple-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    z-index: 1000;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .username {
+    color: white;
+    font-weight: 600;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .register-btn {
+    background-color: #4a6bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .register-btn:hover {
+    background-color: #3a5bef;
+  }
+  
+  /* Home icon styles */
+  .home-icon {
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 15px;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  
+  .home-icon:hover {
+    color: rgb(255, 74, 74);
+    transform: scale(1.1);
+  }
+  /* ===== HERO SECTION ===== */
+  .hero-section {
+    height: 100vh;
+    background-image: linear-gradient(to bottom right,rgb(23, 23, 27),rgb(18, 19, 20));
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    margin-left: 25px;
+    font-size: 3.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    margin-left: 25px;
+    color: #ccc;
+    margin-bottom: 25px;
+  }
+
+  .hero-image {
+    border-radius: 12px;
+    height:100%;
+  }
+
+  .btn-custom {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 12px 28px;
+    margin-left: 25px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+  }
+
+  /* ===== BIO SECTION ===== */
+  .bio-section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+  }
+
+  .text-container {
+    flex: 1;
+    min-width: 400px;
+    text-align:center;
+  }
+
+  .bio-title {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #ff0000;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+  }
+
+  .bio-content {
+    line-height: 1.6;
+    color: #ccc;
+    font-size:1.3rem;
+  }
+
+  .images-container {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+  }
+
+  .image-box {
+    flex: 1;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ===== CARD CAROUSEL SECTION ===== */
+  .carousel-section {
+    padding: 60px 20px;
+    background-color: rgb(19 19 21);
+    position: relative;
+  }
+
+  .section-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: #ff0000;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .cards-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cards-container {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease;
+  }
+
+  .speed-card {
+    flex: 0 0 calc(25% - 15px);
+    background: #222;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+    max-width: 304px;
+  }
+
+  .card-image {
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .card-desc {
+    color: #aaa;
+    font-size: 0.9rem;
+    padding: 0px !important;
+  }
+
+  /* Carousel Navigation */
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 0, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .carousel-arrow:hover {
+    background: #ff0000;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  }
+
+  .carousel-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .arrow-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .arrow-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .arrow-container:hover .arrow-circle {
+    background: #ff0000;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  }
+
+  .arrow-container:active .arrow-circle {
+    transform: scale(0.95);
+  }
+
+  .arrow {
+    width: 25px;
+    height: 20px;
+    position: relative;
+  }
+
+  .arrow::before, .arrow::after {
+    content: '';
+    position: absolute;
+    background-color: white;
+    width: 2px;
+    height: 15px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .arrow-left .arrow::before {
+    transform: rotate(-45deg) translateY(4px) translateX(-4px);
+  }
+
+  .arrow-left .arrow::after {
+    transform: rotate(45deg) translateY(-4px) translateX(-4px);
+  }
+
+  .arrow-right .arrow::before {
+    transform: rotate(45deg) translateY(4px) translateX(4px);
+  }
+
+  .arrow-right .arrow::after {
+    transform: rotate(-45deg) translateY(-4px) translateX(4px);
+  }
+
+  @keyframes arrowPulse {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+  }
+
+  .arrow-right:hover .arrow {
+    animation: arrowPulse 1s infinite;
+  }
+
+  @keyframes arrowPulseLeft {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-5px); }
+  }
+
+  .arrow-left:hover .arrow {
+    animation: arrowPulseLeft 1s infinite;
+  }
+
+  .arrow-left {
+    left: 5px;
+  }
+
+  .arrow-right {
+    right: 5px;
+  }
+
+  .speed-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .speed-card:hover .card-image img {
+    transform: scale(1.05);
+  }
+
+  /* ===== MERCH SECTION ===== */
+  .merch-section {
+    padding: 80px 40px;
+    background-image: linear-gradient(to bottom right, rgb(13 13 15), rgb(10 9 9));
+  }
+
+  .merch-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 70px;
+    align-items: center;
+  }
+
+  .merch-images {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+  }
+
+  .merch-image-box {
+    flex: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+
+  .merch-image-box:hover {
+    transform: translateY(-5px);
+  }
+
+  .merch-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .merch-content {
+    flex: 1;
+  }
+
+  .merch-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ff0000, #ff6b6b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .merch-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 30px;
+  }
+
+  .merch-btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    background: #ff0000;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .merch-btn:hover {
+    background: #cc0000;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255,0,0,0.2);
+  }
+
+  /* Hypnosis effect */
+  .hypnosis-box {
+    perspective: 1000px;
+  }
+  
+  .hypnosis-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform-style: preserve-3d;
+    transition: none;
+  }
+  
+  .hypnosis-image.active {
+    opacity: 1;
+    animation: hypnosisAppear 1.5s forwards;
+  }
+  
+  .hypnosis-image.fade-out {
+    animation: hypnosisDisappear 1.5s forwards;
+  }
+  
+  @keyframes hypnosisAppear {
+    0% {
+      transform: rotateY(90deg) scale(0.1);
+      opacity: 0;
+    }
+    50% {
+      transform: rotateY(0deg) scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: rotateY(0deg) scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes hypnosisDisappear {
+    0% {
+      transform: rotateY(0deg) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: rotateY(-90deg) scale(1.2);
+      opacity: 0.5;
+    }
+    100% {
+      transform: rotateY(-180deg) scale(0.1);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  .cycling-image {
+    animation: fadeInOut 6s infinite;
+  }
+
+  .cycling-image:nth-child(2) {
+    animation-delay: 3s;
+  }
+
+  /* ===== COMMENTS SECTION ===== */
+  .comments-section {
+    background: linear-gradient(to bottom right, #131314, #19191c);
+    color: white;
+    position: relative;
+    padding: 80px 20px; 
+    overflow: hidden;
+  }
+  
+  .comments-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,0,0,0.03)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+    opacity: 0.1;
+    pointer-events: none;
+  }
+  
+  .comments-slider {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 0;
+  }
+  
+  .comments-container {
+    display: flex;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .comment-group {
+    flex: 0 0 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    position: absolute;
+    width: 100%;
+    transform: translateY(20px);
+  }
+  
+  .comment-group.active {
+    opacity: 1;
+    position: relative;
+    transform: translateY(0);
+  }
+  
+  .comment-box {
+    flex: 1 1 calc(25% - 30px);
+    border-radius: 16px;
+    padding: 30px;
+    background: rgba(22, 22, 23, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    backdrop-filter: blur(5px);
+    min-height: 250px;
+    max-height: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comment-box:hover {
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2);
+    transition-delay: 0.1s;
+  }
+  
+  .comment-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #eee;
+    margin-bottom: 25px;
+    font-style: italic;
+    flex-grow: 1;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .comment-text::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: rgba(255, 0, 0, 0.3);
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+  
+  .comment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+    margin-top: auto;
+  }
+  
+  .comment-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .comment-name {
+    font-weight: 700;
+    color: #ff3333;
+    font-size: 1rem;
+    margin-bottom: 3px;
+  }
+  
+  .comment-date {
+    font-size: 0.8rem;
+    color: #888;
+  }
+  
+  .comment-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .comment-stars {
+    color: #ffcc00;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+  }
+  
+  .verified-badge {
+    font-size: 0.7rem;
+    color: #00cc66;
+    background: rgba(0, 204, 102, 0.1);
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  
+  .comment-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+  }
+  
+  .comment-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .comment-indicator.active {
+    background: #ff0000;
+    transform: scale(1.2);
+  }
+
+  /* ===== VIDEO BANNER SECTION ===== */
+  .gif-banner-section {
+    position: relative;
+    height: 450px;
+    min-height: 400px;
+    overflow: hidden;
+  }
+
+  .video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #myVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.3);
+  }
+
+  .video-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: #ff0000;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    line-height: 1.2;
+  }
+
+  .video-description {
+    font-size: 1.3rem;
+    color: white;
+    max-width: 700px;
+    margin-bottom: 30px;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.8);
+  }
+
+  .video-button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 14px 32px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    background: #ff0000;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+
+  .video-button:hover {
+    background: #cc0000;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0,0,0,0.4);
+  }
+
+  /* ===== SOCIAL STATS SECTION ===== */
+  .social-stats-section {
+    background: linear-gradient(to bottom, #0a0a0a, #111);
+    padding: 80px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .social-stats-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,0,0,0.03)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+    opacity: 0.1;
+    pointer-events: none;
+  }
+  
+  .social-card {
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 12px;
+    padding: 25px 15px;
+    transition: box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    height: 100%;
+    min-height: 215px;
+  }
+  
+  .social-card:hover {
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2);
+  }
+  
+  .social-icon {
+    width: 60px;
+    height: auto;
+    margin: 0 auto 20px;
+  }
+  
+  .visit-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+  }
+  
+  .visit-btn:hover {
+    background-color: #c82333 !important;
+  }
+
+  /* ===== FOOTER SECTION ===== */
+  .speed-footer {
+    background: linear-gradient(to right, #000, #111);
+    color: #fff;
+    padding: 50px 0 20px;
+    border-top: 1px solid rgba(255,0,0,0.2);
+  }
+
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    gap: 30px;
+  }
+
+  .footer-column {
+    flex: 1;
+    margin-bottom: 30px;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: #ff0000;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .footer-links h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #ff0000;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+
+  .footer-links a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: #ff0000;
+  }
+
+  .footer-bottom {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+    color: #777;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .social-links a {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .social-links a:hover {
+    background: #ff0000;
+    transform: translateY(-3px);
+  }
+
+
+
+.user-count-section {
+  background: url("{% static 'main_page/images/ChatGPT Image May 23, 20' %}") left;
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
+}
+
+
+  /* ===== MEDIA QUERIES ===== */
+  @media (min-width: 1510px) {
+    .hero-container-image {
+      height:100%;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .comment-box {
+      flex: 1 1 calc(50% - 30px);
+    }
+  }
+
+  @media (max-width: 1110px) {
+    .hero-title { font-size: 3.2rem; }
+    .hero-section { height: 83vh; }
+    .bio-title { font-size: 2.3rem; }
+  }
+
+  @media (max-width: 1000px) {
+    .hero-title { font-size: 3rem; margin-left: 0px; }
+    .hero-subtitle { font-size: 1.15rem; margin-left: 0px; }
+    .btn-custom { margin-left: 0px; }
+    .hero-section { height: 78vh; }
+    .bio-title { font-size: 2.1rem; }
+  }
+
+  @media (max-width: 950px) {
+    .hero-title { font-size: 2.8rem; }
+    .hero-section { height: 70vh; }
+    .bio-title { font-size: 2rem; }
+    .bio-section { flex-direction: column; }
+    .text-container, .images-container { min-width: auto; width: 100%; }
+    .speed-card { flex: 0 0 calc(50% - 10px); }
+  }
+
+  @media (max-width: 900px) {
+    .hero-title { font-size: 2.6rem; }
+    .hero-subtitle { font-size: 1.1rem; }
+    .hero-section { height: 70vh; }
+    .bio-title { font-size: 1.9rem; }
+    .merch-container {
+      flex-direction: column;
+    }
+    .merch-images {
+      width: 100%;
+    }
+    .merch-content {
+      text-align: center;
+    }
+    .gif-banner-section {
+      height: 400px;
+      min-height: 300px;
+    }
+    h2 {
+      font-size: 3rem !important;
+    }
+    p {
+      font-size: 1.1rem !important;
+      padding: 0 20px;
+    }
+  }
+
+  @media (max-width: 850px) {
+    .hero-title { font-size: 2.4rem; }
+    .hero-section { height: 65vh; }
+    .bio-title { font-size: 1.8rem; }
+  }
+
+  @media (max-width: 800px) {
+    .hero-title { font-size: 2.2rem; }
+    .hero-subtitle { font-size: 1.05rem; }
+    .hero-section { height: 60vh; }
+    .bio-title { font-size: 1.7rem; }
+  }
+
+  @media (max-width: 768px) {
+    .comment-box {
+      flex: 1 1 100%;
+      min-height: 200px;
+    }
+    .comments-slider {
+      padding: 10px 0;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .hero-container-image, .hero-container-text { width: 100%; }
+    .hero-container-text { text-align: center; }
+    .hero-section { height: auto; padding: 40px 0; }
+    .responosive-class { display: flex; flex-direction: column; }
+    .hero-container-image { order: 1 !important; margin-bottom: 30px; }
+    .hero-container-text { order: 2 !important; padding:0px 5px !important; }
+    .hero-image { max-width: 100%; height: auto; }
+    .hero-title, .hero-subtitle { font-size: 3.2rem;  }
+    .bio-title { font-size: 1.9rem; }
+  }
+
+  @media (max-width: 600px) {
+    .hero-title { font-size: 2.3rem; }
+    .hero-subtitle { font-size: 1.6rem; }
+    .bio-title { font-size: 1.5rem; }
+    .images-container { flex-direction: column;  }
+    .image-box img {width:85%; display:block; margin:auto; border-radius:10px;}
+    .speed-card { flex: 0 0 100%; }
+    .section-heading { font-size: 2.5rem; }
+    .carousel-arrow { width: 50px; height: 50px; font-size: 1.5rem; }
+    .merch-title { font-size: 2.5rem; }
+    .gif-banner-section { height: 370px; min-height: 300px; }
+    h2 { font-size: 2.5rem !important; }
+  }
+
+  @media (max-width: 400px) {
+    .hero-title { font-size: 1.8rem; }
+    .hero-subtitle { font-size: 1.25rem; }
+    .bio-title { font-size: 1.4rem; }
+    h2 { font-size: 2rem !important; }
+    p { font-size: 1rem !important; }
+  }
+
+  @media (max-width: 380px) {
+    .col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 350px) {
+    .hero-container-text { padding:0px 10px !important; }
+    .image-box img {width:95%; display:block; margin:auto; border-radius:10px;}
+    .hero-title { font-size: 1.7rem; }
+    .hero-subtitle { font-size: 1.5rem; }
+    .bio-title { font-size: 1.3rem; }
+    .card-title { text-align:center; }
+    .card-desc { text-align:center; margin-top:10px; }
+    .btn-custom { padding:5px !important; width: 90%; }
+    .merch-images { flex-direction: column; }
+    .hypnosis-box { display:none; }
+    .merch-section { padding: 80px 20px; }
+    .video-button { padding: 8px 14px; font-size: 1rem; }
+    .video-title { font-size: 2.5rem; }
+    .video-description { font-size: 1rem; }
+    .footer-column { flex: 0 0 100%; }
+    .footer-logo { font-size: 2rem; }
+    .social-links { justify-content: flex-start; }
+  }
+
+  @media (max-width: 340px) {
+    .comment-group { padding: 0px; }
+  }
+
+  @media (max-width: 300px) {
+    .hero-title { font-size: 1.7rem; }
+    .hero-subtitle { font-size: 1.3rem; }
+    .bio-title { font-size: 1.2rem; }
+    .btn-custom { padding: 3px 5px; font-size: 1rem; width: 85%; }
+    .bio-content { font-size:0.80rem !important; padding: 0px;  }
+    .bio-section { padding: 80px 10px; } 
+  }
+
+  @media (max-width: 290px) {
+    .comments-section { padding: 10px; }
+    .comment-box { padding: 15px; margin-top: 20px; }
+  }
+
+  @media (max-width: 270px) {
+    .comment-text { line-height: 1.5 !important; font-size: 0.90rem !important; }
+    .carousel-section { padding: 60px 10px; }
+  }
+
+  @media (max-width: 240px) {
+    .merch-section { padding: 80px 10px; }
+    .social-links { justify-content: center; }
+    .footer-container { padding:0px !important; text-align:center; }
+  }
+
+  @media (max-width: 215px) {
+    .verified-badge, .comment-date { font-size:0.55rem !important; }
+    .comment-stars, .comment-name { font-size:0.75rem !important; }
+    .comment-name { margin-bottom: 8px !important; }
+  }
+
+  @media (max-width: 210px) {
+    .footer-column li { font-size:0.85rem; }
+    .comment-box { padding:10px; }
+  }
+
+
+  @media (max-width: 600px) {
+    .user-count-display {
+        font-size: 3.5rem !important;
+    }
+    
+    .user-count-section {
+        padding: 60px 20px !important;
+    }
+    
+    .user-count-container p {
+        font-size: 1rem !important;
+    }
+}
+  </style>
+  {% endblock %}
+
+
+  {% block content %}
+  <div class="">
+  <!-- UPDATED HERO SECTION -->
+  <section class="hero-section">
+    <div class="container-fluid h-100">
+      <div class="row h-100 align-items-center responosive-class">
+        <!-- Text Column -->
+        <div class="hero-container-text col-xl-6 col-lg-6 col-sm-6 col-12 text-lg-start text-center px-lg-5 px-4">
+          <h1 class="hero-title display-1">ISHOWSPEED—<br class="d-none d-lg-block">THE FASTEST GROWING ENTERTAINER</h1>
+          <p class="hero-subtitle lead mb-4">FROM YOUTUBE TO THE WORLD!</p>
+          <button class="btn btn-danger btn-lg btn-custom" onclick="watchLatest()">
+            🎬 WATCH LATEST VIDEOS
+          </button>
+        </div>
+        
+        <!-- Image Column -->
+        <div class="hero-container-image col-xl-6 col-lg-6 col-sm-6 col-12 d-flex justify-content-center align-items-center">
+          <img src="{% static 'main_page/images/ChatGPT Image May 3, 2025, 07_05_53 PM.png'%}" alt="IShowSpeed" class="img-fluid hero-image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIO SECTION -->
+  <section class="bio-section">
+    <div class="text-container">
+      <h2 class="bio-title">WHO IS DARREN WATKINS JR.<br>(ISHOWSPEED)?</h2>
+      <p class="bio-content">
+        Darren WatKihs Jru, better known as showSpeed,<br>
+        startist his Younl be journey as a teenager. Kising<br>
+        to lome with his chergery, and ungricificitable speed.<br>
+        Speed has become vigilobal spreation known for his<br>
+        viral moments and infectious personality.
+      </p>
+    </div>
+
+    <div class="images-container">
+      <div class="image-box">
+        <img src="{% static 'main_page/images/ishowspeed_bio.webp' %}" alt="IShowSpeed 1">
+      </div>
+      <div class="image-box">
+        <img src="{% static 'main_page/images/ishowspeedbio(2).jpg' %}" alt="IShowSpeed 2">
+      </div>
+    </div>
+    
+  </section>
+
+  <!-- CARD CAROUSEL SECTION -->
+  <section class="carousel-section">
+    <h2 class="section-heading">SPEED'S ICONIC MOMENTS</h2>
+    
+    <div class="cards-wrapper">
+      <div class="arrow-container arrow-left" onclick="moveCard(-1)">
+        <div class="arrow-circle">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAACXBIWXMAAAsTAAALEwEAmpwYAAABN0lEQVR4nM2WoUtDURSHnxPcYCZRWXGrFpOICMMkr5kG+w8GM+wvWNAo2AwGBYNmQTAuGQWHaWhZ0TimRYOIfvLwgXfnHZAzxr3+2oOP3wePc+89UfRfA5SAc6D8B3cIxJMQnvGTN2APyCvMNr+5AirjyqrAF6PpAQWHKQB9wbwCm1bZNHBHNkeC21WYR6BoFbaUoiEw7zDl9FfL1KyyReAlUwMNwV0qTMckS4tOlaJbIOcwscK8A8tW2RrwKYqS73WHmQEeFOG+VZYDbpSiY8G1FeYJmLUKd5SiZ2DBYZbSsZepW2VzwEApagruQmGugSmr8EQp6ibn0WG2FOYDWLHKVpVBSW6YDTEo94rwwCQLIvT+S4MMjfdjEeTge7/agtzeQZ4n7w9wkBXD+xIVZE2MQizCk8o3+1joR5+YRGoAAAAASUVORK5CYII=" alt="double-left">
+        </div>
+      </div>
+      
+      <div class="arrow-container arrow-right" onclick="moveCard(1)">
+        <div class="arrow-circle">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAACXBIWXMAAAsTAAALEwEAmpwYAAABKUlEQVR4nM3WvyvFURzG8ZsfuYxKySAGi1WSklGRUfkPRCm7wa5MFkUGrMposjOYZCGxK0WSFC+pW+79+oh75HSf7dS75+mcnnPOp1RqFGEC6z8wvdhD91+CerDrU9MB04olPFSYndSwcTyq1RXKVUwZ5wXmDWMpge249lUrBW4jYM7QkhI6E5g9ob+K6cRtwC3WHVgxPAzMDgrMXMDcJxUIA3gODKeqmCYcB8x26i5XA7PLQoGM8BoUaDQlsAM3QehygdsKmFM0p4TOflOgvl8UaL7uwIrhUWC2X2AWAuYOXSmBg3gJDCcLBToJmM3UXa4FZhdoq2KGgwJ9rEcaO1DuI5WzNHJeC7kvvpxPm9yPt5zfk5wfsNwjhtxDVPYxsVRrmmcQ/m+9A7WN4fNOX0juAAAAAElFTkSuQmCC" alt="double-right">
+        </div>
+      </div>
+      
+      <div class="cards-container" id="cardsContainer">
+        <div class="speed-card">
+          <div class="card-image">
+            <img src="{% static 'main_page/images/ChatGPT Image May 16, 2025, 11_00_34 AM.png'%}" alt="Viral Video">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">VIRAL VIDEOS</h3>
+            <p class="card-desc">Speed's most explosive moments</p>
+          </div>
+        </div>
+        
+        <div class="speed-card">
+          <div class="card-image">
+            <img src="{% static 'main_page/images/ChatGPT Image May 17, 2025, 06_16_34 PM.png' %}" alt="Loving Moment">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">LOVING MOMENT</h3>
+            <p class="card-desc">Speed's emotional side</p>
+          </div>
+        </div>
+        
+        <div class="speed-card">
+          <div class="card-image">
+            <img src="{% static 'main_page/images/ChatGPT Image May 16, 2025, 11_17_56 AM.png'%}" alt="Soccer Moment">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">SOCCER MOMENT</h3>
+            <p class="card-desc">Wild football reactions</p>
+          </div>
+        </div>
+        
+        <div class="speed-card">
+          <div class="card-image">
+            <img src="{% static 'main_page/images/ChatGPT Image May 16, 2025, 11_27_37 AM.png'%}" alt="Streaming Career">
+
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">CELEBRATIONS</h3>
+            <p class="card-desc">Iconic victory dances</p>
+          </div>
+        </div>
+        
+        <div class="speed-card">
+          <div class="card-image">
+            <img src="{% static 'main_page/images/ChatGPT Image May 18, 2025, 09_28_27 PM (1).png'%}" alt="Streaming Career">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">STREAMING CARRIER</h3>
+            <p class="card-desc">From small streams to millions</p>
+          </div>
+        </div>
+        
+        <div class="speed-card">
+          <div class="card-image">
+            <img src="{% static 'main_page/images/ChatGPT Image May 17, 2025, 06_05_54 PM.png' %}" alt="Kind Moment">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">KIND MOMENT</h3>
+            <p class="card-desc">Surprising fans with generosity</p>
+          </div>
+        </div>
+        
+        <div class="speed-card">
+          <div class="card-image">
+            <img src="{% static 'main_page/images/ChatGPT Image May 25, 2025, 02_11_54 PM.png'%}" alt="Highlight">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">HIGHLIGHT MOMENT</h3>
+            <p class="card-desc">Craziest clips compilation</p>
+          </div>
+        </div>
+        
+        <div class="speed-card">
+          <div class="card-image">
+                     <img src="{% static 'main_page/images/ChatGPT Image May 17, 2025, 06_31_52 PM.png'%}" alt="Highlight">
+
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">RAGE MOMENTS</h3>
+            <p class="card-desc">Losing it in funny ways</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="merch-section">
+    <div class="merch-container">
+      <div class="merch-images">
+        <div class="merch-image-box hypnosis-box">
+          <img src="{% static 'main_page/images/ChatGPT Image May 6, 2025, 05_08_36 PM.png' %}" alt="IShowSpeed Merch 2" class="hypnosis-image active">
+          <img src="{% static 'main_page/images/ChatGPT Image May 25, 2025, 02_15_35 PM.png' %}" alt="IShowSpeed Merch 1" class="hypnosis-image">
+        </div>
+        <div class="merch-image-box">
+          <img src="{% static 'main_page/images/ChatGPT Image May 4, 2025, 01_42_14 PM.png' %}" alt="IShowSpeed Merch 3">
+        </div>
+      </div>
+      <div class="merch-content">
+        <h2 class="merch-title">OFFICIAL ISHOWSPEED MERCH</h2>
+        <p class="merch-description">
+          Get your hands on exclusive IShowSpeed merchandise!<br>
+          Limited edition designs only available through the official store.<br>
+          Show your support for Speed with high-quality apparel and accessories.
+        </p>
+        <button class="btn merch-btn" onclick="visitMerchStore()">
+          🛍️ SHOP NOW
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+  
+<!-- USER COUNT SECTION -->
+<section class="user-count-section" style="">
+
+    <div class="container">
+        <h2 class="section-heading" style="color: red; margin-bottom: 30px;">SPEED ARMY MEMBERS</h2>
+        <div class="user-count-container" style="max-width: 600px; margin: 0 auto;">
+            <div class="user-count-display" style="font-size: 5rem; font-weight: bold; color: red; margin-bottom: 20px;">
+              <span class="count-number" data-count="{{ user_count }}"></span>+
+
+            </div>
+            <p style="color: white; font-size: 1.2rem;">
+                Fans have joined the Speed Army and counting! Be part of the fastest growing community.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ENHANCED COMMENTS SECTION -->
+<section class="comments-section" style="">
+  <div class="container">
+    <h2 class="section-heading" style="text-align: center; margin-bottom: 50px;">FAN LOVE FOR SPEED</h2>
+    
+    <div class="comments-slider">
+      <div class="comments-container" id="commentsContainer">
+        <!-- Comment Group 1 -->
+        <div class="comment-group active">
+          <div class="comment-box">
+            <div class="comment-text">"Speed's energy is absolutely contagious! Every stream feels like a party."</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">John D.</span>
+                <div class="comment-date">2 days ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Verified Fan</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"Been watching since the early days. The growth is in"</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Sarah M.</span>
+                <div class="comment-date">1 week ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Verified Fan</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"Merch quality is top tier! The hoodie "</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Mike T.</span>
+                <div class="comment-date">3 days ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★☆</div>
+                <div class="verified-badge">✓ Customer</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"That Ronaldo meetup had me emotional."</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Alex P.</span>
+                <div class="comment-date">5 hours ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Subscriber</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Comment Group 2 -->
+        <div class="comment-group">
+          <div class="comment-box">
+            <div class="comment-text">"The way Speed remembers his long-time fans is incredible. Shoutout to the OGs in chat!"</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">David L.</span>
+                <div class="comment-date">1 day ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ OG Fan</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"Most authentic streamer out there. Doesn't put on an act - what you see is what you get!"</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Emma R.</span>
+                <div class="comment-date">2 weeks ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Verified Fan</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"The football reactions are legendary. I don't even like soccer but I watch every reaction video!"</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">James K.</span>
+                <div class="comment-date">4 days ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Viewer</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"Speed got me through some tough times. His streams were the only "</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Lisa H.</span>
+                <div class="comment-date">1 month ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Long-time Fan</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Comment Group 3 -->
+        <div class="comment-group">
+          <div class="comment-box">
+            <div class="comment-text">"No one creates viral moments like Speed. The World Cup streams were historic!"</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Tom B.</span>
+                <div class="comment-date">3 days ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Verified Fan</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"The documentary about his rise was so inspiring."</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Olivia M.</span>
+                <div class="comment-date">6 days ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Subscriber</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"Speed's community is the best on the internet. Everyone is so welcoming in chat!"</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Ryan S.</span>
+                <div class="comment-date">1 week ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Active Chatter</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="comment-box">
+            <div class="comment-text">"The way he interacts with smaller creators is so wholesome"</div>
+            <div class="comment-meta">
+              <div class="comment-info">
+                <span class="comment-name">Natalie W.</span>
+                <div class="comment-date">2 days ago</div>
+              </div>
+              <div class="comment-rating">
+                <div class="comment-stars">★★★★★</div>
+                <div class="verified-badge">✓ Content Creator</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="gif-banner-section">
+  <!-- Video Background -->
+  <div class="video-container">
+    <video id="myVideo" autoplay muted playsinline>
+      <source src="{% static 'main_page/images/video_2025-05-06_17-36-15.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <!-- Content Overlay -->
+  <div class="video-content">
+    <h2 class="video-title">ISHOWSPEED IS LOVING IRL!</h2>
+    <p class="video-description">
+      Watch Speed's wildest real-life moments and unpredictable adventures
+    </p>
+    <button class="video-button" onclick="window.open('https://www.youtube.com/ishowspeed','_blank')">
+      🔴 WATCH IRL STREAMS
+    </button>
+  </div>
+</section>
+
+<section class="social-stats-section">
+  <div class="container">
+    <h2 class="section-heading mb-5 text-center">SPEED SOCIAL MEDIA</h2>
+    
+    <div class="row justify-content-center">
+      
+      <!-- YouTube -->
+      <div class="col-md-3 col-sm-6 col-6 mb-4">
+        <div class="social-card">
+          <img class="social-icon" src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+          <div class="social-content">
+            <p>YouTube</p>
+            <a href="https://youtube.com/@IShowSpeed" target="_blank" class="btn btn-sm btn-danger">Visit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instagram -->
+      <div class="col-md-3 col-sm-6 col-6 mb-4">
+        <div class="social-card">
+          <img class="social-icon" src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+          <div class="social-content">
+            <p>Instagram</p>
+            <a href="https://instagram.com/ishowspeed" target="_blank" class="btn btn-sm btn-danger">Visit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Twitter/X -->
+      <div class="col-md-3 col-sm-6 col-6 mb-4">
+        <div class="social-card">
+          <img class="social-icon" src="https://cdn-icons-png.flaticon.com/512/124/124021.png" alt="Twitter">
+          <div class="social-content">
+            <p>Twitter</p>
+            <a href="https://twitter.com/IShowSpeed" target="_blank" class="btn btn-sm btn-danger">Visit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TikTok -->
+      <div class="col-md-3 col-sm-6 col-6 mb-4">
+        <div class="social-card">
+          <img class="social-icon" src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+          <div class="social-content">
+            <p>TikTok</p>
+            <a href="https://tiktok.com/@ishowspeed" target="_blank" class="btn btn-sm btn-danger">Visit</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+   <!-- Footer Section -->
+   <footer class="speed-footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <span class="footer-logo">IShowSpeed</span>
+            <p style="color: #aaa; margin-bottom: 20px;">The fastest growing entertainer from YouTube to the world!</p>
+            <div class="social-links">
+                <a href="https://youtube.com/@IShowSpeed" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://twitter.com/IShowSpeed" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/ishowspeed" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer-column footer-links">
+            <h4>Navigation</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Videos</a></li>
+                <li><a href="#">Merch</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-column footer-links">
+            <h4>FAQs</h4>
+            <ul>
+                <li><a href="#">Who is IShowSpeed?</a></li>
+                <li><a href="#">Where is Speed from?</a></li>
+                <li><a href="#">How old is Speed?</a></li>
+                <li><a href="#">Who made this website?</a></li>
+                <li><a href="#">Speed's net worth</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-column footer-links">
+            <h4>Community</h4>
+            <ul>
+                <li><a href="https://www.ishowspeed.store/" target="_blank">Official Store</a></li>
+                <li><a href="https://www.youtube.com/ishowspeed" target="_blank">YouTube</a></li>
+                <li><a href="https://www.twitch.tv/ishowspeed" target="_blank">Twitch</a></li>
+                <li><a href="https://www.reddit.com/r/Ishowspeed/" target="_blank">Reddit</a></li>
+                <li><a href="https://discord.gg/ishowspeed" target="_blank">Discord Server</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 IShowSpeed. All Rights Reserved. This is a fan-made website.</p>
+        </div>
+    </div>
+</footer>
+
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const registered = urlParams.get('registered');
+      
+      if (registered) {
+          alert('You are already registered as ' + '{{ user.username }}');
+      }
+  });
+
+
+
+
+
+      function watchLatest() {
+      window.open("https://youtube.com/@IShowSpeed", "_blank");
+    }
+
+    // Card carousel functionality
+    let currentIndex = 0;
+    const cardsContainer = document.getElementById('cardsContainer');
+    const cards = document.querySelectorAll('.speed-card');
+    let cardWidth = cards[0].offsetWidth + 20; // card + gap
+    let autoSlideInterval;
+    const visibleCards = 4;
+
+    function updateCards() {
+      cardsContainer.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
+    }
+
+    function moveCard(step) {
+      clearInterval(autoSlideInterval);
+      
+      currentIndex += step;
+      
+      // Boundary checks
+      if (currentIndex < 0) currentIndex = 0;
+      if (currentIndex > cards.length - visibleCards) currentIndex = cards.length - visibleCards;
+      
+      updateCards();
+      startAutoSlide();
+    }
+
+    function autoSlide() {
+      currentIndex = (currentIndex + visibleCards) % (cards.length - visibleCards + 1);
+      updateCards();
+    }
+
+    function startAutoSlide() {
+      clearInterval(autoSlideInterval);
+      autoSlideInterval = setInterval(autoSlide, 5000);
+    }
+
+    // Initialize
+    $(document).ready(function() {
+      updateCards();
+      startAutoSlide();
+      
+      // Handle window resize
+      $(window).resize(function() {
+        cardWidth = cards[0].offsetWidth + 20;
+        updateCards();
+      });
+
+      // Arrow hover effects
+      $('.arrow-container').hover(
+        function() {
+          $(this).find('.arrow-circle').css('transform', 'scale(1.1)');
+        },
+        function() {
+          $(this).find('.arrow-circle').css('transform', 'scale(1)');
+        }
+      );
+    });
+
+
+    function visitMerchStore() {
+      window.open("https://www.ishowspeed.store/", "_blank");
+    }
+
+    $(document).ready(function() {
+      const images = $('.hypnosis-image');
+      let currentIndex = 0;
+      
+      // Initialize - show first image
+      $(images[currentIndex]).addClass('active');
+      
+      setInterval(function() {
+        // Get current and next image
+        const currentImage = $(images[currentIndex]);
+        const nextIndex = (currentIndex + 1) % images.length;
+        const nextImage = $(images[nextIndex]);
+        
+        // Start fade out current image
+        currentImage.removeClass('active').addClass('fade-out');
+        
+        // After fade out completes, reset and prepare for next appearance
+        setTimeout(function() {
+          currentImage.removeClass('fade-out');
+          currentImage.css('opacity', '0');
+          
+          // Show next image with appear animation
+          nextImage.addClass('active');
+          
+          // Update current index
+          currentIndex = nextIndex;
+        }, 2000);
+        
+      }, 7000); // Change image every 3 seconds
+    });
+
+
+     // Comments slider functionality
+  $(document).ready(function() {
+    const commentGroups = $('.comment-group');
+    let currentGroup = 0;
+    
+    // Show first group
+    $(commentGroups[currentGroup]).addClass('active');
+    
+    // Auto-rotate comments every 8 seconds
+    setInterval(function() {
+      // Fade out current group
+      $(commentGroups[currentGroup]).removeClass('active');
+      
+      // Calculate next group
+      currentGroup = (currentGroup + 1) % commentGroups.length;
+      
+      // Fade in next group
+      $(commentGroups[currentGroup]).addClass('active');
+    }, 8000);
+  });
+
+
+  document.getElementById('myVideo').addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+  });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  let animationStarted = false;
+
+  function isElementInViewport(el, offset = 100) {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) - offset
+    );
+  }
+
+  function animateCounter(element, target, duration) {
+    let start = 0;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const value = Math.floor(progress * target);
+      element.textContent = value;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = target; // Final value
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  function startAnimations() {
+    const countElement = document.querySelector(".count-number");
+    if (countElement) {
+      const target = parseInt(countElement.getAttribute("data-count"));
+      animateCounter(countElement, target, 3000); // 3 seconds
+    }
+  }
+
+  window.addEventListener("scroll", function () {
+    const targetSection = document.querySelector(".user-count-section");
+    if (!targetSection) return;
+
+    if (!animationStarted && isElementInViewport(targetSection, 100)) {
+      animationStarted = true;
+      startAnimations();
+    }
+  });
+});
+</script>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %} ishowspeed||Register {% endblock %}
+    
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/registeration.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+   
+{% block content %}
+    <div class="signup-container">
+        <div class="header">
+            <h1>Join Speed Army</h1>
+        </div>
+
+        <form id="registrationForm" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="username" class="form-input" id="username" placeholder=" " required>
+                <label class="label"><i class="fas fa-user"></i> Username</label>
+                <div class="error-message"></div>
+            </div>
+        
+            <div class="form-group">
+                <input type="email" name="email" class="form-input" id="email" placeholder=" " required>
+                <label class="label"><i class="fas fa-envelope"></i> Email</label>
+                <div class="error-message"></div>
+            </div>
+        
+            <div class="form-group">
+                <input type="password" name="password1" class="form-input" id="password" placeholder=" " required>
+                <label class="label"><i class="fas fa-lock"></i> Password</label>
+                <div class="error-message"></div>
+            </div>
+        
+            <div class="form-group">
+                <input type="password" name="password2" class="form-input" id="confirm-password" placeholder=" " required>
+                <label class="label"><i class="fas fa-lock"></i> Confirm Password</label>
+                <div class="error-message"></div>
+            </div>
+        
+            <button type="button" class="btn btn-primary" id="sendCodeBtn">
+                <i class="fas fa-paper-plane"></i> Send Verification Code
+            </button>
+        </form>
+
+        <div class="social-login">
+            <div class="divider">OR CONNECT WITH</div>
+            <button type="button" class="btn btn-google">
+                <a href="{% provider_login_url 'google' %}">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </a>
+            </button>
+            <button type="button" class="btn btn-facebook">
+                <i class="fab fa-facebook-f"></i> Sign up with Facebook
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/registration.js' %}?v={% now 'U' %}"></script>
+{% endblock %}

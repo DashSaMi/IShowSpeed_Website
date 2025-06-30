@@ -1,0 +1,528 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Dark Theme Styles */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verification-container {
+            max-width: 450px;
+            width: 90%;
+            margin: 20px auto;
+            padding: 30px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .verification-container .header {
+            margin-bottom: 30px;
+        }
+
+        .verification-container .header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        .verification-container .header p {
+            color: #b0b0b0;
+            font-size: 1rem;
+        }
+
+        .verification-container .header p span {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .code-input {
+            width: 55px;
+            height: 65px;
+            text-align: center;
+            font-size: 1.8rem;
+            background:rgb(45, 45, 45);
+            border: 2px solid #333;
+            border-radius: 8px;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .code-input:focus {
+            border-color:rgba(251, 251, 251, 0.93);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.43);
+            transform: translateY(-2px);
+        }
+
+        .code-input.invalid {
+            border-color: #ff4a4a;
+        }
+
+        .resend-section {
+            margin: 25px 0;
+            color: #b0b0b0;
+        }
+
+        .resend-section a {
+            color: #4a6bff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .resend-section a:hover {
+            color: #3a5bef;
+            text-decoration: underline;
+        }
+
+        .btn {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background-color:rgb(59, 122, 66);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color:rgb(98, 194, 68);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 107, 255, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background-color: #3a3a3a;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #ff4a4a;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        #back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 74, 110, 0.1);
+            border: none;
+            color:rgb(255, 74, 74);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        #back:hover {
+            background: rgba(255, 74, 74, 0.2);
+            transform: translateX(-2px);
+        }
+
+        #back i {
+            font-size: 0.9rem;
+        }
+
+        /* Animation for code inputs */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .code-input:focus {
+            animation: pulse 0.5s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .code-input {
+                width: 45px;
+                height: 55px;
+                font-size: 1.5rem;
+            }
+            
+            .verification-container {
+                padding: 25px 20px;
+            }
+        }
+
+           .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+        background-color: #1e1e1e;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 84%;
+        max-width: 500px;
+        text-align: center;
+        border: 1px solid #333;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal h2 {
+        margin-top: 0;
+        color: #ff4a4a;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .modal p {
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+    }
+    
+    #redirectNow {
+        background-color: #ff4a4a;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+    }
+    
+    #redirectNow:hover {
+        background-color: #ff3333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 74, 74, 0.3);
+    }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <button id="back">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        
+        <div class="header">
+            <h1>Verify Your Email</h1>
+            <p>We've sent a 6-digit code to <span id="userEmail"></span></p>
+        </div>
+
+        <form id="verificationForm" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="username" name="username">
+            <input type="hidden" id="email" name="email">
+            <input type="hidden" id="password1" name="password1">
+            <input type="hidden" id="password2" name="password2">
+            
+            <div class="code-inputs">
+                <input type="text" maxlength="1" class="code-input" data-index="1" autocomplete="off">
+                <input type="text" maxlength="1" class="code-input" data-index="2" autocomplete="off">
+                <input type="text" maxlength="1" class="code-input" data-index="3" autocomplete="off">
+                <input type="text" maxlength="1" class="code-input" data-index="4" autocomplete="off">
+                <input type="text" maxlength="1" class="code-input" data-index="5" autocomplete="off">
+                <input type="text" maxlength="1" class="code-input" data-index="6" autocomplete="off">
+            </div>
+            <input type="hidden" name="verification_code" id="fullCode">
+
+            <div class="resend-section">
+                <p>Didn't receive a code? <a href="#" id="resendCode">Resend code</a></p>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check-circle"></i> Verify & Sign Up
+            </button>
+        </form>
+
+
+         <div id="attemptsExceededModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Verification Failed</h2>
+            <p>You've exceeded the maximum number of attempts. You'll be redirected to the registration page shortly.</p>
+            <button id="redirectNow" class="btn btn-primary">Go to Registration Now</button>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+    const verificationForm = document.getElementById('verificationForm');
+    const codeInputs = document.querySelectorAll('.code-input');
+    const fullCodeInput = document.getElementById('fullCode');
+    const resendLink = document.getElementById('resendCode');
+    const userEmailSpan = document.getElementById('userEmail');
+    const backButton = document.getElementById('back');
+    const modal = document.getElementById('attemptsExceededModal');
+    
+    // Get data from sessionStorage
+    const formData = JSON.parse(sessionStorage.getItem('registrationData'));
+    
+    // Define modal functions at the top level
+    function showAttemptsExceededModal() {
+        modal.style.display = 'flex';
+
+        // Set timeout for automatic redirect
+        let seconds = 6;
+        const redirectNowBtn = document.getElementById('redirectNow');
+        
+        // Update button text with countdown
+        redirectNowBtn.textContent = `Go to Registration Now (${seconds})`;
+        
+        const countdown = setInterval(() => {
+            seconds--;
+            redirectNowBtn.textContent = `Go to Registration Now (${seconds})`;
+            
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                redirectToRegistration();
+            }
+        }, 1000);
+
+        // Handle immediate redirect button click
+        redirectNowBtn.addEventListener('click', redirectToRegistration);
+    }
+
+    function redirectToRegistration() {
+        // Clear session data via API
+        fetch('/clear-registration-session/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(() => {
+            sessionStorage.removeItem('registrationData');
+            window.location.href = '/register/';
+        });
+    }
+
+    if (!formData) {
+        window.location.href = '/register/';
+        return;
+    }
+    
+    // Rest of your initialization code...
+    document.getElementById('username').value = formData.username;
+    document.getElementById('email').value = formData.email;
+    document.getElementById('password1').value = formData.password1;
+    document.getElementById('password2').value = formData.password2;
+    userEmailSpan.textContent = formData.email;
+    
+    // Handle code input navigation
+    codeInputs.forEach((input, index) => {
+        input.addEventListener('input', function() {
+            if (this.value.length === 1) {
+                if (index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                } else {
+                    this.blur();
+                }
+            }
+            updateFullCode();
+        });
+        
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && this.value.length === 0) {
+                if (index > 0) {
+                    codeInputs[index - 1].focus();
+                }
+            }
+        });
+        
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pasteData = e.clipboardData.getData('text');
+            if (pasteData.length === 6 && /^\d+$/.test(pasteData)) {
+                pasteData.split('').forEach((char, i) => {
+                    if (codeInputs[i]) {
+                        codeInputs[i].value = char;
+                    }
+                });
+                updateFullCode();
+                codeInputs[5].focus();
+            }
+        });
+    });
+    
+    function updateFullCode() {
+        let code = '';
+        codeInputs.forEach(input => {
+            code += input.value;
+            input.classList.toggle('invalid', false);
+        });
+        fullCodeInput.value = code;
+    }
+    
+    // Handle form submission
+    verificationForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        fetch('/verify/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': data.csrfmiddlewaretoken
+            },
+            body: JSON.stringify({
+                username: data.username,
+                email: data.email,
+                password1: data.password1,
+                password2: data.password2,
+                verification_code: data.verification_code
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                sessionStorage.removeItem('registrationData');
+                window.location.href = data.redirect_url || '/';
+            } else {
+                if (data.exceeded_attempts) {
+                    showAttemptsExceededModal();
+                } else {
+                    alert(data.message || 'Verification Code is incorrect or expired. Click on Resend code.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & Sign Up';
+
+                    if (data.errors) {
+                        codeInputs.forEach(input => {
+                            input.value = '';
+                            input.classList.add('invalid');
+                        });
+                        codeInputs[0].focus();
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & Sign Up';
+        });
+    });
+    
+    // Handle resend code
+    resendLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const originalText = resendLink.textContent;
+        resendLink.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+        fetch('/send-verification-code/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                email: formData.email,
+                username: formData.username,
+                password: formData.password || ''
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.success ? 'New verification code sent!' : data.message || 'Failed to resend code.');
+            resendLink.textContent = originalText;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+            resendLink.textContent = originalText;
+        });
+    });
+    
+    // Handle back button click
+    backButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        backButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        
+        fetch('/clear-registration-session/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                sessionStorage.removeItem('registrationData');
+                window.location.href = '/register/';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            backButton.innerHTML = '<i class="fas fa-arrow-left"></i> Back';
+        });
+    });
+    
+    // Focus first input on load
+    codeInputs[0].focus();
+});
+    block
+    </script>
+</body>
+</html>
